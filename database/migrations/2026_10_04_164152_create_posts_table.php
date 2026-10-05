@@ -14,13 +14,16 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('parent_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('content');
+            $table->foreignId('parent_id')->nullable()->constrained('posts')->cascadeOnDelete();
+            $table->foreignId('repost_of_id')->nullable()->constrained('posts')->cascadeOnDelete();
+            $table->string('content')->nullable();
             $table->timestamps();
 
 
             $table->index('parent_id');
             $table->index(['profile_id', 'created_at']);
+
+            $table->unique(['profile_id', 'repost_of_id'], 'unique_profile_repost');
         });
     }
 

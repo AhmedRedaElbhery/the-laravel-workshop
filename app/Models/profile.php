@@ -5,32 +5,58 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class profile extends Model
+class Profile extends Model
 {
     /** @use HasFactory<\Database\Factories\ProfileFactory> */
     use HasFactory;
-    protected $table = 'profile';
+    protected $table = 'profiles';
     protected $fillable = [
         'name',
-        'handel',
+        'handle',
         'bio',
         'avatar_url'
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(user::class);
+        return $this->belongsTo(User::class);
     }
 
     public function posts(): HasMany
     {
-        return $this->hasMany(post::class);
+        return $this->hasMany(Post::class);
     }
 
     public function topLevelPosts(): HasMany
     {
-        return $this->hasMany(post::class)->whereNull('parent_id');
+        return $this->hasMany(Post::class)->whereNull('parent_id');
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->BelongsToMany(
+            Profile::class,
+            'follows',
+            'following_profile_id',
+            'follower_profile_id'
+        );
+    }
+
+    public function followings(): BelongsToMany
+    {
+        return $this->BelongsToMany(
+            Profile::class,
+            'follows',
+            'follower_profile_id',
+            'following_profile_id'
+        );
     }
 }

@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Profile;
+use App\Models\Like;
+use App\Models\Follow;
+use App\Models\Post;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +21,37 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $profiles = Profile::factory()->count(20)->create();
+
+        foreach ($profiles as $profile) {
+            Post::factory()->count(5)->create(['profile_id' => $profile->id]);
+        }
+
+        $posts = Post::all();
+
+        foreach ($profiles as $profile) {
+            $toFollow = $profiles->except($profile->id)->random(rand(3, 7));
+
+            foreach ($toFollow as $target) {
+                Follow::createFollow($profile, $target);
+            }
+        }
+
+        foreach ($profiles as $profile) {
+            $toLike = $posts->where('profile_id', '!=', $profile->id)->random(rand(10, 20));
+
+            foreach ($toLike as $post) {
+                Like::createLike($profile, $post);
+            }
+        }
+
+
+
+        for ($ii = 0; $ii < rand(20, 30); $ii++) {
+            $parentPost = $posts->random();
+            $replier = Profile::where('id', '!=', $parentPost->profile_id)->inRandomOrder()->first();
+
+            Post::factory()->reply($parentPost)->create(['profile_id' => $replier->id]);
+        }
     }
 }

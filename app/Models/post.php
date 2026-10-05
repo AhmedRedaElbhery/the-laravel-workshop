@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class post extends Model
+class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
     protected $table = 'posts';
     protected $fillable = [
-        'content'
+        'content',
+        'parent_id',
+        'profile_id',
+        'repost_of_id'
     ];
 
     public function profile(): BelongsTo
@@ -29,5 +32,30 @@ class post extends Model
     public function replies(): HasMany
     {
         return $this->HasMany(post::class, 'parent_id');
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->HasMany(Like::class);
+    }
+
+    public function reposts(): HasMany
+    {
+        return $this->HasMany(post::class, 'repost_of_id');
+    }
+
+    public function repostOf(): BelongsTo
+    {
+        return $this->BelongsTo(post::class, 'repost_of_id');
+    }
+
+    public static function reply(Profile $profile, Post $original, string $content)
+    {
+        return static::create([
+            'profile_id' => $profile->id,
+            'content' => $content,
+            'parent_id' => $original->id,
+            'repost_of_id' => null,
+        ]);
     }
 }
