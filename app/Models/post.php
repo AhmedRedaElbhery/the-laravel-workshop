@@ -49,6 +49,11 @@ class Post extends Model
         return $this->BelongsTo(post::class, 'repost_of_id');
     }
 
+    public function isRepost(): bool
+    {
+        return $this->repost_of_id != null;
+    }
+
     public static function reply(Profile $profile, Post $original, string $content)
     {
         return static::create([
@@ -56,6 +61,16 @@ class Post extends Model
             'content' => $content,
             'parent_id' => $original->id,
             'repost_of_id' => null,
+        ]);
+    }
+
+    public static function repost(Profile $profile, Post $original, string $content = null)
+    {
+        return static::create([
+            'profile_id' => $profile->id,
+            'content' => $content,
+            'parent_id' => null,
+            'repost_of_id' => $original->id,
         ]);
     }
 }
