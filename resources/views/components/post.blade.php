@@ -33,12 +33,16 @@
 
         </div>
         <!-- Action buttons -->
-        <div class="mt-6 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-8">
-                @if ($engagement)
+        @if ($engagement)
+            <div class="mt-6 flex items-center justify-between gap-4">
+
+                <div class="flex items-center gap-8">
+
                     <!-- Like -->
                     <div class=" flex items-center gap-1">
-                        <button aria-label="Like" class="hover:text-pixl ">
+                        <button aria-label="Like" @class([
+                            'text-pixl' => $post->has_liked,
+                        ]) class="hover:text-pixl ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-4.25" viewBox="0 0 20 17">
                                 <g fill="currentColor" clip-path="url(#a)">
                                     <path
@@ -56,7 +60,9 @@
                                 </defs>
                             </svg>
                         </button>
-                        <span class="text-sm">{{ $post->likes_count }}</span>
+                        <span @class([
+                            'text-pixl' => $post->has_liked,
+                        ]) class="text-sm">{{ $post->likes_count }}</span>
                     </div>
                     <!-- Comment -->
                     <div class="flex items-center gap-1">
@@ -84,7 +90,9 @@
                     </div>
                     <!-- Re-post -->
                     <div class="flex items-center gap-1">
-                        <button aria-label="Re-post" class="hover:text-pixl">
+                        <button aria-label="Re-post" @class([
+                            'text-pixl' => $post->has_reposted,
+                        ]) class="hover:text-pixl">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-[17px]" viewBox="0 0 20 17">
                                 <path fill="currentColor" d="M1.429 3.857H0v1.429h1.429V3.857Z" />
                                 <path fill="currentColor" d="M2.854 3.857H1.426v1.429h1.428V3.857Z" />
@@ -113,68 +121,75 @@
                                     d="M15.714 5.286h-1.428v1.429h1.428V5.286Zm-1.428 0h-1.428v1.429h1.428V5.286Zm-1.43 0h-1.428v1.429h1.428V5.286Z" />
                             </svg>
                         </button>
-                        <span class="text-sm">{{ $post->reposts_count }}</span>
+                        <span @class([
+                            'text-pixl' => $post->has_reposted,
+                        ]) class="text-sm">{{ $post->reposts_count }}</span>
                     </div>
-                @endif
+
+                </div>
+                <div class="flex items-center gap-3">
+                    @if ($engagement)
+                        <!-- Save -->
+                        <div class="flex items-center gap-1">
+                            <button aria-label="Save" class="hover:text-pixl">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-[17px]"
+                                    viewBox="0 0 14 17">
+                                    <g fill="currentColor" clip-path="url(#a)">
+                                        <path
+                                            d="M1.545 7.727H0v1.546h1.545V7.727Zm0 1.546H0v1.545h1.545V9.273Zm0 1.545H0v1.546h1.545v-1.546Zm0 1.546H0v1.545h1.545v-1.545Zm0 1.546H0v1.545h1.545v-1.546Zm1.545 1.544H1.546V17h1.546v-1.546Z" />
+                                        <path d="M4.636 15.454H3.091V17h1.545v-1.546Z" />
+                                        <path
+                                            d="M4.636 13.91H3.091v1.545h1.545v-1.546Zm1.546 0H4.636v1.545h1.546v-1.546Zm0-1.546H4.636v1.545h1.546v-1.545Zm1.545 0H6.182v1.545h1.545v-1.545Zm1.546 0H7.727v1.545h1.546v-1.545Zm0 1.546H7.727v1.545h1.546v-1.546Zm1.545 0H9.273v1.545h1.545v-1.546Zm1.546 1.544h-1.546V17h1.546v-1.546Z" />
+                                        <path
+                                            d="M10.818 15.454H9.273V17h1.545v-1.546Zm3.092-1.544h-1.546v1.545h1.545v-1.546Zm0-1.546h-1.546v1.545h1.545v-1.545Zm0-1.546h-1.546v1.546h1.545v-1.546Zm0-1.545h-1.546v1.545h1.545V9.273Zm0-1.546h-1.546v1.546h1.545V7.727ZM4.636 0H3.091v1.545h1.545V0Zm1.546 0H4.636v1.545h1.546V0Zm1.545 0H6.182v1.545h1.545V0Zm1.546 0H7.727v1.545h1.546V0Zm1.545 0H9.273v1.545h1.545V0ZM3.09 1.545H1.546v1.546h1.546V1.545Zm9.274 0h-1.546v1.546h1.546V1.545ZM1.545 3.09H0v1.546h1.545V3.091Z" />
+                                        <path
+                                            d="M3.09 3.09H1.546v1.546h1.546V3.091Zm9.274 0h-1.546v1.546h1.546V3.091Zm1.546 0h-1.546v1.546h1.545V3.091ZM1.545 4.636H0v1.546h1.545V4.636Zm12.365 0h-1.546v1.546h1.545V4.636Zm0 1.546h-1.546v1.545h1.545V6.182Zm-12.365 0H0v1.545h1.545V6.182Z" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="a">
+                                            <path fill="#fff" d="M0 0h14v17H0z" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </button>
+                            <span class="text-pixl-light/40 text-sm">Save</span>
+                        </div>
+                        <!-- Share -->
+                        <div class="flex items-center gap-1">
+                            <button aria-label="Share" class="hover:text-pixl">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-[17px]"
+                                    viewBox="0 0 19 17">
+                                    <g fill="currentColor" clip-path="url(#a)">
+                                        <path d="M2.125 6.375H0V8.5h2.125V6.375Z" />
+                                        <path d="M4.25 6.375H2.123V8.5H4.25V6.375Zm0-2.125H2.123v2.125H4.25V4.25Z" />
+                                        <path
+                                            d="M6.373 4.25H4.248v2.125h2.125V4.25Zm0-2.125H4.248V4.25h2.125V2.125Zm2.127 0H6.375V4.25H8.5V2.125ZM8.5 0H6.375v2.125H8.5V0Z" />
+                                        <path
+                                            d="M10.624 0H8.499v2.125h2.125V0Zm2.126 0h-2.124v2.125h2.125V0Zm2.125 2.125H12.75V4.25h2.125V2.125Z" />
+                                        <path
+                                            d="M12.75 2.125h-2.124V4.25h2.125V2.125Zm2.125 2.125H12.75v2.125h2.125V4.25Z" />
+                                        <path
+                                            d="M16.999 4.25h-2.125v2.125h2.125V4.25Zm0 2.125h-2.125V8.5h2.125V6.375Zm2.126 0H17V8.5h2.125V6.375Zm-8.501-4.25H8.499V4.25h2.125V2.125Zm0 2.125H8.499v2.125h2.125V4.25Zm0 2.125H8.499V8.5h2.125V6.375Zm0 2.125H8.499v2.124h2.125V8.5Zm0 2.125H8.499v2.125h2.125v-2.125Zm0 2.125H8.499v2.125h2.125V12.75Zm0 2.125H8.499V17h2.125v-2.125Zm-6.374 0H2.123V17H4.25v-2.125Z" />
+                                        <path
+                                            d="M6.373 14.875H4.248V17h2.125v-2.125Zm2.127 0H6.375V17H8.5v-2.125Zm4.25 0h-2.124V17h2.125v-2.125Z" />
+                                        <path d="M14.875 14.875H12.75V17h2.125v-2.125Z" />
+                                        <path
+                                            d="M16.999 14.875h-2.125V17h2.125v-2.125ZM2.125 12.75H0v2.125h2.125V12.75Zm0 2.125H0V17h2.125v-2.125Zm17-2.125H17v2.125h2.125V12.75Zm0 2.125H17V17h2.125v-2.125Z" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="a">
+                                            <path fill="#fff" d="M0 0h19v17H0z" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                @if ($engagement)
-                    <!-- Save -->
-                    <div class="flex items-center gap-1">
-                        <button aria-label="Save" class="hover:text-pixl">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-[17px]" viewBox="0 0 14 17">
-                                <g fill="currentColor" clip-path="url(#a)">
-                                    <path
-                                        d="M1.545 7.727H0v1.546h1.545V7.727Zm0 1.546H0v1.545h1.545V9.273Zm0 1.545H0v1.546h1.545v-1.546Zm0 1.546H0v1.545h1.545v-1.545Zm0 1.546H0v1.545h1.545v-1.546Zm1.545 1.544H1.546V17h1.546v-1.546Z" />
-                                    <path d="M4.636 15.454H3.091V17h1.545v-1.546Z" />
-                                    <path
-                                        d="M4.636 13.91H3.091v1.545h1.545v-1.546Zm1.546 0H4.636v1.545h1.546v-1.546Zm0-1.546H4.636v1.545h1.546v-1.545Zm1.545 0H6.182v1.545h1.545v-1.545Zm1.546 0H7.727v1.545h1.546v-1.545Zm0 1.546H7.727v1.545h1.546v-1.546Zm1.545 0H9.273v1.545h1.545v-1.546Zm1.546 1.544h-1.546V17h1.546v-1.546Z" />
-                                    <path
-                                        d="M10.818 15.454H9.273V17h1.545v-1.546Zm3.092-1.544h-1.546v1.545h1.545v-1.546Zm0-1.546h-1.546v1.545h1.545v-1.545Zm0-1.546h-1.546v1.546h1.545v-1.546Zm0-1.545h-1.546v1.545h1.545V9.273Zm0-1.546h-1.546v1.546h1.545V7.727ZM4.636 0H3.091v1.545h1.545V0Zm1.546 0H4.636v1.545h1.546V0Zm1.545 0H6.182v1.545h1.545V0Zm1.546 0H7.727v1.545h1.546V0Zm1.545 0H9.273v1.545h1.545V0ZM3.09 1.545H1.546v1.546h1.546V1.545Zm9.274 0h-1.546v1.546h1.546V1.545ZM1.545 3.09H0v1.546h1.545V3.091Z" />
-                                    <path
-                                        d="M3.09 3.09H1.546v1.546h1.546V3.091Zm9.274 0h-1.546v1.546h1.546V3.091Zm1.546 0h-1.546v1.546h1.545V3.091ZM1.545 4.636H0v1.546h1.545V4.636Zm12.365 0h-1.546v1.546h1.545V4.636Zm0 1.546h-1.546v1.545h1.545V6.182Zm-12.365 0H0v1.545h1.545V6.182Z" />
-                                </g>
-                                <defs>
-                                    <clipPath id="a">
-                                        <path fill="#fff" d="M0 0h14v17H0z" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </button>
-                        <span class="text-pixl-light/40 text-sm">Save</span>
-                    </div>
-                    <!-- Share -->
-                    <div class="flex items-center gap-1">
-                        <button aria-label="Share" class="hover:text-pixl">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-[17px]" viewBox="0 0 19 17">
-                                <g fill="currentColor" clip-path="url(#a)">
-                                    <path d="M2.125 6.375H0V8.5h2.125V6.375Z" />
-                                    <path d="M4.25 6.375H2.123V8.5H4.25V6.375Zm0-2.125H2.123v2.125H4.25V4.25Z" />
-                                    <path
-                                        d="M6.373 4.25H4.248v2.125h2.125V4.25Zm0-2.125H4.248V4.25h2.125V2.125Zm2.127 0H6.375V4.25H8.5V2.125ZM8.5 0H6.375v2.125H8.5V0Z" />
-                                    <path
-                                        d="M10.624 0H8.499v2.125h2.125V0Zm2.126 0h-2.124v2.125h2.125V0Zm2.125 2.125H12.75V4.25h2.125V2.125Z" />
-                                    <path
-                                        d="M12.75 2.125h-2.124V4.25h2.125V2.125Zm2.125 2.125H12.75v2.125h2.125V4.25Z" />
-                                    <path
-                                        d="M16.999 4.25h-2.125v2.125h2.125V4.25Zm0 2.125h-2.125V8.5h2.125V6.375Zm2.126 0H17V8.5h2.125V6.375Zm-8.501-4.25H8.499V4.25h2.125V2.125Zm0 2.125H8.499v2.125h2.125V4.25Zm0 2.125H8.499V8.5h2.125V6.375Zm0 2.125H8.499v2.124h2.125V8.5Zm0 2.125H8.499v2.125h2.125v-2.125Zm0 2.125H8.499v2.125h2.125V12.75Zm0 2.125H8.499V17h2.125v-2.125Zm-6.374 0H2.123V17H4.25v-2.125Z" />
-                                    <path
-                                        d="M6.373 14.875H4.248V17h2.125v-2.125Zm2.127 0H6.375V17H8.5v-2.125Zm4.25 0h-2.124V17h2.125v-2.125Z" />
-                                    <path d="M14.875 14.875H12.75V17h2.125v-2.125Z" />
-                                    <path
-                                        d="M16.999 14.875h-2.125V17h2.125v-2.125ZM2.125 12.75H0v2.125h2.125V12.75Zm0 2.125H0V17h2.125v-2.125Zm17-2.125H17v2.125h2.125V12.75Zm0 2.125H17V17h2.125v-2.125Z" />
-                                </g>
-                                <defs>
-                                    <clipPath id="a">
-                                        <path fill="#fff" d="M0 0h19v17H0z" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </button>
-                    </div>
-                @endif
-            </div>
-        </div>
+        @endif
+
+        <x-reply-form :post="$post" />
 
         @if ($showReplies)
             <ol class="mt-5">

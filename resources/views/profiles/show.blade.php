@@ -20,7 +20,7 @@
         <ol class="border-pixl-light/10 border-t pt-4">
             <!-- Feed item -->
             @foreach ($posts as $item)
-                <x-post :post="$item->isRepost() && $item->content == null ? $item->repostOf : $item" :engagement="true" />
+                <x-post :post="$item" :engagement="true" />
             @endforeach
             <!-- More feed items... -->
         </ol>

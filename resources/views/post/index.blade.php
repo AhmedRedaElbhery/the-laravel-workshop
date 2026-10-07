@@ -14,10 +14,17 @@
             </ul>
         </nav>
 
+        <!-- Post prompt -->
+
+        <x-post-form />
 
         <!-- Feed -->
         <ol class="mt-4">
-            <x-post :post="$post" show-replies="true" />
+
+            @foreach ($posts as $item)
+                <x-post :post="$item" />
+            @endforeach
+
         </ol>
 
         <footer class="mt-30 ml-14">

@@ -73,4 +73,14 @@ class Post extends Model
             'repost_of_id' => $original->id,
         ]);
     }
+
+    public static function publish(Profile $profile, string $content): self
+    {
+        return static::create([
+            'content' => $content,
+            'parent_id' => null,
+            'profile_id' => $profile->id,
+            'repost_of_id' => null,
+        ]);
+    }
 }
