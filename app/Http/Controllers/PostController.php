@@ -7,6 +7,7 @@ use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Profile;
+use App\Queries\PostThreadQuery;
 use App\Queries\TimelineQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,17 +25,8 @@ class PostController extends Controller
 
     public function show(Profile $profile, Post $post)
     {
-        $post->load([
-            'replies' => fn($q) => $q
-                ->withCount(['likes', 'replies', 'reposts'])
-                ->with(['profile', 'parent.profile', 'replies' => fn($q) => $q
-                    ->withCount(['likes', 'replies', 'reposts'])
-                    ->with(['profile', 'parent.profile'])
-                    ->oldest()])
-                ->oldest()
-        ]);
 
-        $post->loadCount(['likes', 'replies', 'reposts']);
+        $post = PostThreadQuery::for($post, Auth::user()?->profile)->load();
 
         return view('post.show', compact('post'));
     }

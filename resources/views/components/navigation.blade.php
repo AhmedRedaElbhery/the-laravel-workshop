@@ -29,7 +29,7 @@
         <!-- Navigation -->
         <nav class="mt-10">
             <ul class="flex flex-col gap-3.5">
-                <li><a class="hover:underline" href="#">Home</a></li>
+                <li><a class="hover:underline" href="{{ route('posts.index') }}">Home</a></li>
                 <li><a class="hover:underline" href="#">Explore</a></li>
                 <!-- Active item -->
                 <li class="-ml-4 flex items-center gap-2">
@@ -50,12 +50,12 @@
 
     <div class="flex flex-col gap-6">
 
-        @isset($showPostButton)
+        @if (!request()->routeIs('posts.index'))
             <button
                 class="bg-pixl hover:bg-pixl/90 active:bg-pixl/95 text-pixl-dark border border-transparent px-4 py-3 text-sm">
                 Post
             </button>
-        @endisset
+        @endif
 
         <!-- User controls -->
         <div class="flex gap-3.5">
@@ -64,7 +64,7 @@
             </a>
             <div class="flex flex-col gap-1 text-sm">
                 <p>_adrian</p>
-                <p class="text-pixl-light/60">@tudssss</p>
+                <p class="text-pixl-light/60">@adrian</p>
             </div>
             <button class="group flex gap-[3px] py-2" aria-label="Post options">
                 <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>

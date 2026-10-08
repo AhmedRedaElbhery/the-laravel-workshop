@@ -5,19 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark" />
+    <title>pixl</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <x-inertia::head />
-    <title>{{ $title }}</title>
+    @inertiaHead
 </head>
 
 <body class="bg-black text-white min-h-screen w-full">
-    <div class="flex gap-10 w-full mx-auto min-h-screen">
-
-        <x-inertia::app />
-        {{-- <x-navigation />
-        {{ $slot }}
-        <x-aside /> --}}
-    </div>
+    @inertia
 </body>
 
 </html>

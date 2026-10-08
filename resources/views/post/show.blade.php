@@ -1,7 +1,6 @@
 <x-layout title="PIXL - Feed">
-    @include('partials.navigation')
 
-    <main class="flex grow flex-col gap-4 w-[70%] overflow-y-auto px-0.5 pr-2 py-4 scrollbar-none">
+    <main class="flex grow flex-col gap-4 overflow-y-auto px-0.5 pr-2 py-4 scrollbar-none">
         <nav>
             <ul class="flex justify-end gap-8 text-sm">
                 <li><a href="#">For you</a></li>
@@ -29,6 +28,5 @@
 
     </main>
 
-    @include('partials.aside')
 
 </x-layout>
