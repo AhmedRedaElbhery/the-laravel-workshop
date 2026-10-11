@@ -1,7 +1,7 @@
 <template>
 
     <div>
-       <Layout>this is the main untill we made it</Layout>
+        <Layout>this is the main untill we made it</Layout>
     </div>
 </template>
 

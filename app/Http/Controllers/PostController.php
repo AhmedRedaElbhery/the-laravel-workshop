@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
-use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Queries\PostThreadQuery;
 use App\Queries\TimelineQuery;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -20,7 +19,7 @@ class PostController extends Controller
         $profile = Auth::user()->profile;
         $posts = TimelineQuery::forViewer($profile)->get();
 
-        return view('post.index', compact('posts', 'profile'));
+        return Inertia::render('Posts/index', compact('posts', 'profile'));
     }
 
     public function show(Profile $profile, Post $post)

@@ -7,7 +7,7 @@
 
         <Aside />
     </div>
-</template>>
+</template>
 
 <script setup>
 import Navigation from '../Components/Navigation.vue';
