@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Profile;
@@ -19,7 +20,7 @@ class PostController extends Controller
         $profile = Auth::user()->profile;
         $posts = TimelineQuery::forViewer($profile)->get();
 
-        return Inertia::render('Posts/index', compact('posts', 'profile'));
+        return Inertia::render('Posts/index', ['profile' => $profile->toResource(), 'posts' => PostResource::collection($posts)]);
     }
 
     public function show(Profile $profile, Post $post)
@@ -27,7 +28,7 @@ class PostController extends Controller
 
         $post = PostThreadQuery::for($post, Auth::user()?->profile)->load();
 
-        return view('post.show', compact('post'));
+        return Inertia::render('Posts/show', ['post' => $post->toResource()]);
     }
 
     public function store(CreatePostRequest $request)
@@ -45,7 +46,7 @@ class PostController extends Controller
 
         $post = Post::reply($currentProfile, $post, $request->content);
 
-        return redirect()->route('posts.index');
+        return back();
     }
 
     public function repost(Profile $profile, Post $post)
@@ -69,30 +70,24 @@ class PostController extends Controller
     public function destroy(Profile $profile, Post $post)
     {
         $currentProfile = Auth::user()->profile;
-        $success = false;
 
         if ($currentProfile->id === $profile->id) {
-            $success = $post->delete() > 0;
-            return response()->json(compact('success'));
+            $post->delete();
+            return back();
         }
 
-        $repost = $post->reposts()->where('profile_id', $currentProfile->id)->first();
+        $post->reposts()->where('profile_id', $currentProfile->id)->first()?->delete();
 
-        if (!is_null($repost)) {
-            $success = $repost->delete() > 0;
-            return response()->json(compact('success'));
-        }
-
-        return response()->json(compact('success'));
+        return back();
     }
 
     public function like(Profile $profile, Post $post)
     {
         $currentProfile = Auth::user()->profile;
 
-        $like = Like::createLike($currentProfile, $post);
+        Like::createLike($currentProfile, $post);
 
-        return response()->json(compact('like'));
+        return back();
     }
 
 
@@ -100,8 +95,8 @@ class PostController extends Controller
     {
         $currentProfile = Auth::user()->profile;
 
-        $like = Like::removeLike($currentProfile, $post);
+        Like::removeLike($currentProfile, $post);
 
-        return response()->json(compact('unlike'));
+        return back();
     }
 }

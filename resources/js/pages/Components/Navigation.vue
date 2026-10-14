@@ -1,5 +1,5 @@
 <template>
-    <header class="my-4 hidden w-50 shrink-0 flex-col justify-between gap-8 pl-4 sm:flex xl:ml-32">
+    <header class="my-4 h-full hidden w-50 shrink-0 flex-col justify-between gap-25 pl-4 sm:flex xl:ml-32">
         <div class="overflow-y-auto">
             <!-- Logo -->
             <a href="/">
@@ -31,7 +31,8 @@
             <!-- Navigation -->
             <nav class="mt-10">
                 <ul class="flex flex-col gap-3.5">
-                    <li><a class="hover:underline" href="{{ route('posts.index') }}">Home</a></li>
+                    <li><a :class="{ 'text-pixl': $page.component === 'Posts/index' }" class="hover:underline"
+                            :href="route('posts.index')">Home</a></li>
                     <li><a class="hover:underline" href="#">Explore</a></li>
                     <!-- Active item -->
                     <li class="-ml-4 flex items-center gap-2">
@@ -51,13 +52,10 @@
         </div>
 
         <div class="flex flex-col gap-6">
-
-
-            <button
-                class="bg-pixl hover:bg-pixl/90 active:bg-pixl/95 text-pixl-dark border border-transparent px-4 py-3 text-sm">
+            <a :href="route('posts.index')" v-show="$page.component !== 'Posts/index'"
+                class="text-center bg-pixl hover:bg-pixl/90 active:bg-pixl/95 text-pixl-dark border border-transparent px-4 py-3 text-sm">
                 Post
-            </button>
-
+            </a>
             <!-- User controls -->
             <div class="flex gap-3.5">
                 <a href="/profile" class="shrink-0">

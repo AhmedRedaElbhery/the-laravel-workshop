@@ -4,7 +4,7 @@
         <div aria-hidden="true" class="bg-pixl-light/10 absolute top-0 left-5 h-full w-px group-last/li:h-4">
         </div>
         <a :href="route('profiles.show', reply.profile)" class="isolate shrink-0">
-            <img :src="reply.profile.avatar_url" :alt="`Avatar for ${reply.Profile.name}`"
+            <img :src="reply.profile.avatar_url" :alt="`Avatar for ${reply.profile.name}`"
                 class="size-10 object-cover" />
         </a>
         <div class="border-pixl-light/10 grow border-b pt-1.5 pb-5">
@@ -12,14 +12,14 @@
                 <div class="flex items-center gap-2.5">
                     <p>
                         <a class="hover:underline" :href="route('profiles.show', reply.profile)">{{
-                            reply.Profile.name }}</a>
+                            reply.profile.name }}</a>
                     </p>
                     <p class="text-pixl-light/40 text-xs"><a :href="route('posts.show', [reply.profile, reply])">{{
                         reply.created_at }}</a>
                     </p>
                     <p>
                         <a class="text-pixl-light/40 hover:text-pixl-light/60 text-xs"
-                            :href="route('profiles.show', reply.profile)">{{ reply.Profile.handle }}</a>
+                            :href="route('profiles.show', reply.profile)">{{ reply.profile.handle }}</a>
                     </p>
                 </div>
 

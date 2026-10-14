@@ -23,6 +23,7 @@ class PostThreadQuery
         $viewerId = $this->viewer?->id ?? 0;
 
         $this->post->load([
+            'profile',
             'replies' => fn($q) => $q
                 ->withCount(['likes', 'replies', 'reposts'])
                 ->withExists([

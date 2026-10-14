@@ -4,11 +4,13 @@
             <img :src="post.profile.avatar_url" :alt="`Avatar for ${post.profile.name}`" class="size-10 object-cover" />
         </a>
 
-        <form class="grow" method="post" :action="route('posts.reply', { profile: post.profile.id, post: post.id })">
-            @csrf
+        <Form v-slot="{ errors }" class="grow" method="post"
+            :action="route('posts.reply', { profile: post.profile, post: post })" resetOnSuccess
+            @success="emit('success')">
             <label class="sr-only" for="reply">Reply body</label>
             <textarea class="w-full resize-none text-lg" name="content" id="reply"
                 :placeholder="`Reply on ${post.profile.name} Post`"></textarea>
+            <p v-if="errors.content" class="text-sm text-red-400">{{ errors.content }}</p>
             <div class="flex items-center justify-between gap-4">
                 <div class="flex gap-4">
                     <button type="button">
@@ -93,7 +95,7 @@
                     Reply
                 </button>
             </div>
-        </form>
+        </Form>
 
     </div>
 
@@ -101,7 +103,9 @@
 </template>
 
 <script setup>
+import { Form } from '@inertiajs/vue3';
 defineProps({
     post: Object,
 })
+let emit = defineEmits(['success']);
 </script>

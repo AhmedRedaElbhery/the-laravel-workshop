@@ -16,16 +16,31 @@
                             :href="route('profiles.show', post.profile)">{{ post.profile.handle }}</a>
                     </p>
                 </div>
-                <button class="group flex gap-0.75 py-2" aria-label="Post options">
-                    <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
-                    <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
-                    <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
-                </button>
+                <Menu as="div" class="relative">
+                    <MenuButton class="group flex gap-0.75 py-2" aria-label="Post options">
+                        <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
+                        <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
+                        <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
+                    </MenuButton>
+
+                    <MenuItems
+                        class="absolute right-0 z-50 mt-2 w-40 border border-pixl-light/10 bg-pixl-dark py-1 shadow-lg focus:outline-none">
+                        <MenuItem class="w-full" v-slot="{ active }">
+                            <Link method="post" :href="route('posts.destroy', [post.profile, post])">
+                                <button class="w-full px-4 py-2 text-left text-sm"
+                                    :class="{ 'bg-pixl-light/10': active }">
+                                    Delete
+                                </button>
+                            </Link>
+                        </MenuItem>
+                    </MenuItems>
+                </Menu>
             </div>
+
             <div class="mt-4 flex flex-col gap-3 text-sm">
                 {{ post.content }}
 
-                <ul v-if="!!post.repost_of && !!post.content">
+                <ul v-if="!!post.repost_of">
                     <Post :post="post.repost_of" :engagement="false"></Post>
                 </ul>
 
@@ -38,7 +53,7 @@
                     <!-- Like -->
                     <LikeButton :post="post" :id="post.id"></LikeButton>
                     <!-- Comment -->
-                    <ReplyButton :post="post" :id="post.id"></ReplyButton>
+                    <ReplyButton :post="post" :id="post.id" @click="showReplyForm = true"></ReplyButton>
                     <!-- Re-post -->
                     <RepostButton :post="post" :id="post.id"></RepostButton>
 
@@ -51,7 +66,7 @@
                 </div>
             </div>
 
-            <ReplyForm :post="post"></ReplyForm>
+            <ReplyForm v-show="showReplyForm" :post="post" @success="showReplyForm = false"></ReplyForm>
 
             <ol v-if="showReplies" class="mt-5">
                 <!-- Reply -->
@@ -72,10 +87,20 @@ import SaveButton from './SaveButton.vue';
 import ShareButton from './ShareButton.vue';
 import ReplyForm from './ReplyForm.vue';
 import Reply from './Reply.vue';
+import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import {
+    Menu,
+    MenuButton,
+    MenuItems,
+    MenuItem
+} from '@headlessui/vue';
+
 defineProps({
     post: Object,
     engagement: { type: Boolean, default: true },
     showReplies: { type: Boolean, default: false },
 })
+let showReplyForm = ref(false);
 
 </script>

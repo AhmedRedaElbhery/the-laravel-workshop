@@ -3,7 +3,7 @@
         <Link :href="`/${profile.handle}`" class="shrink-0">
             <img :src="profile.avatar_url" :alt="`Avatar for ${profile.name}`" class="size-10 object-cover" />
         </Link>
-        <form class="grow" @submit.prevent="submit">
+        <form class="grow" @submit.prevent="submit" resetOnSuccess>
             <label class="sr-only" for="content">post body</label>
             <textarea v-model="form.content" class="w-full resize-none text-lg" name="content" id="content"
                 :placeholder="`What's up ${profile.name} ?`"></textarea>
