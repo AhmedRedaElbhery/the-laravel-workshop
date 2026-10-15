@@ -34,6 +34,7 @@ class ProfilePageQuery
             ->whereNull('parent_id')
             ->with(
                 [
+                    'profile',
                     'repostOf' => fn($q) => $q
                         ->withCount(['likes', 'reposts', 'replies'])
                         ->with(

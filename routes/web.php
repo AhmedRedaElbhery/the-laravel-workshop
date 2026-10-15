@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -7,9 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('welcome');
+Route::get('/', [HomeController::class, 'index'])->middleware('guest')->name('welcome');
 
 
 Route::get('/dev/login', function () {
@@ -75,9 +74,9 @@ Route::middleware(['auth'])->group(function () {
     )->name('profiles.follow');
 
     Route::post(
-        '/{profile:handle}/status/{post}/unfollow',
+        '/{profile:handle}/unfollow',
         [ProfileController::class, 'unfollow']
-    )->name('posts.unfollow');
+    )->name('profiles.unfollow');
 });
 
 
