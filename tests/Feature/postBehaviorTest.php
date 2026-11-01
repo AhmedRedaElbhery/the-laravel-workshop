@@ -1,6 +1,6 @@
 <?php
 
-test('example', function () {
+test('remove', function () {
     $response = $this->get('/');
 
     $response->assertStatus(200);

@@ -12,6 +12,26 @@ A small social media application built with Laravel, Vue 3, and Inertia.js. User
 -   **Profiles:** View public profiles, including their posts and replies.
 -   **Follow System:** Follow and unfollow other profiles.
 
+## Screenshots
+
+### Home Feed
+
+The home timeline with the post composer, posts, quoted posts, and like, reply, and repost counts.
+
+![Home feed](screenshots/Feed_posts.png)
+
+### Post with Replies
+
+A single post page showing the original post and its reply thread. and we can do like and unlike, repost, comment
+
+![Post with replies](screenshots/Post_with_reply.png)
+
+### Profile
+
+A profile page with bio, following and follower counts, and tabs for posts and replies.
+
+![Profile posts](screenshots/Profile_Posts.png)
+
 ## Tech Stack
 
 | Layer      | Technologies                                 |
